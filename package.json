@@ -1,0 +1,21 @@
+{
+  "name": "fiveminute",
+  "version": "1.0.0",
+  "description": "5 minute demo timed call",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "twilio"
+  ],
+  "author": "Brent Schooley",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "moment": "^2.19.2",
+    "node-schedule": "^1.2.5",
+    "twilio": "^3.9.2"
+  }
+}
