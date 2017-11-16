@@ -49,7 +49,7 @@ app.post('/voice_response', (req, res) => {
 
   response.type('text/xml');
   response.send(twiml.toString());
-}
+});
 
 app.listen(app.get('port'), () => {
   console.log('Node app is running on port', app.get('port'));
