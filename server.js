@@ -28,10 +28,14 @@ app.post('/sms', (req, res) => {
       from: process.env.TWILIO_PHONE_NUMBER,
     })
   }.bind(null, from));
-  
+
   const twiml = new MessagingResponse();
 
-  twiml.message('Thanks for messaging my demo! Find out more about Twilio in the docs at https://twilio.com/docs');
+  twiml.message(
+    `Thanks for messaging my demo!
+    Find out more about Twilio in the docs at https://twilio.com/docs
+    Check us out on YouTube at https://youtube.com/TeamTwilio`
+  );
 
   res.writeHead(200, {'Content-Type': 'text/xml'});
   res.end(twiml.toString());
