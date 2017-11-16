@@ -47,8 +47,8 @@ app.post('/voice_response', (req, res) => {
   const twiml = new VoiceResponse();
   twiml.play({}, 'https://intense-reef-61003.herokuapp.com/that_one_song.mp3');
 
-  response.type('text/xml');
-  response.send(twiml.toString());
+  res.type('text/xml');
+  res.send(twiml.toString());
 });
 
 app.listen(app.get('port'), () => {
