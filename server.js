@@ -17,6 +17,10 @@ app.set("port", process.env.PORT || 5000);
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static("public"));
 
+app.get('/', function (req, res) {
+  res.send('Demo app ready for action!');
+});
+
 app.post("/sms", (req, res) => {
   console.log("Hi!");
   var date = moment().add(process.env.VIDEO_DELAY_SECONDS, "s").toDate();
