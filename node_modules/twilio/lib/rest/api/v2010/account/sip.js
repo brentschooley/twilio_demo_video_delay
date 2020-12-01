@@ -10,6 +10,7 @@
 /* jshint ignore:end */
 
 var _ = require('lodash');  /* jshint ignore:line */
+var util = require('util');  /* jshint ignore:line */
 var CredentialListList = require('./sip/credentialList').CredentialListList;
 var DomainList = require('./sip/domain').DomainList;
 var IpAccessControlListList = require(
@@ -19,8 +20,9 @@ var SipList;
 
 /* jshint ignore:start */
 /**
+ * Initialize the SipList
+ *
  * @constructor Twilio.Api.V2010.AccountContext.SipList
- * @description Initialize the SipList
  *
  * @param {Twilio.Api.V2010} version - Version of the resource
  * @param {string} accountSid -
@@ -31,8 +33,7 @@ SipList = function SipList(version, accountSid) {
   /* jshint ignore:start */
   /**
    * @function sip
-   * @memberof Twilio.Api.V2010.AccountContext
-   * @instance
+   * @memberof Twilio.Api.V2010.AccountContext#
    *
    * @param {string} sid - sid of instance
    *
@@ -55,36 +56,54 @@ SipList = function SipList(version, accountSid) {
 
   Object.defineProperty(SipListInstance,
     'domains', {
-    get: function domains() {
-      if (!this._domains) {
-        this._domains = new DomainList(this._version, this._solution.accountSid);
-      }
+      get: function domains() {
+        if (!this._domains) {
+          this._domains = new DomainList(this._version, this._solution.accountSid);
+        }
 
-      return this._domains;
-    }
+        return this._domains;
+      }
   });
 
   Object.defineProperty(SipListInstance,
     'ipAccessControlLists', {
-    get: function ipAccessControlLists() {
-      if (!this._ipAccessControlLists) {
-        this._ipAccessControlLists = new IpAccessControlListList(this._version, this._solution.accountSid);
-      }
+      get: function ipAccessControlLists() {
+        if (!this._ipAccessControlLists) {
+          this._ipAccessControlLists = new IpAccessControlListList(this._version, this._solution.accountSid);
+        }
 
-      return this._ipAccessControlLists;
-    }
+        return this._ipAccessControlLists;
+      }
   });
 
   Object.defineProperty(SipListInstance,
     'credentialLists', {
-    get: function credentialLists() {
-      if (!this._credentialLists) {
-        this._credentialLists = new CredentialListList(this._version, this._solution.accountSid);
-      }
+      get: function credentialLists() {
+        if (!this._credentialLists) {
+          this._credentialLists = new CredentialListList(this._version, this._solution.accountSid);
+        }
 
-      return this._credentialLists;
-    }
+        return this._credentialLists;
+      }
   });
+
+  /* jshint ignore:start */
+  /**
+   * Provide a user-friendly representation
+   *
+   * @function toJSON
+   * @memberof Twilio.Api.V2010.AccountContext.SipList#
+   *
+   * @returns Object
+   */
+  /* jshint ignore:end */
+  SipListInstance.toJSON = function toJSON() {
+    return this._solution;
+  };
+
+  SipListInstance[util.inspect.custom] = function inspect(depth, options) {
+    return util.inspect(this.toJSON(), options);
+  };
 
   return SipListInstance;
 };

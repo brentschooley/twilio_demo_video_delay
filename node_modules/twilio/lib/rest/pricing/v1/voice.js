@@ -10,6 +10,7 @@
 /* jshint ignore:end */
 
 var _ = require('lodash');  /* jshint ignore:line */
+var util = require('util');  /* jshint ignore:line */
 var CountryList = require('./voice/country').CountryList;
 var NumberList = require('./voice/number').NumberList;
 var Page = require('../../../base/Page');  /* jshint ignore:line */
@@ -20,8 +21,9 @@ var VoiceInstance;
 
 /* jshint ignore:start */
 /**
+ * Initialize the VoiceList
+ *
  * @constructor Twilio.Pricing.V1.VoiceList
- * @description Initialize the VoiceList
  *
  * @param {Twilio.Pricing.V1} version - Version of the resource
  */
@@ -30,8 +32,7 @@ VoiceList = function VoiceList(version) {
   /* jshint ignore:start */
   /**
    * @function voice
-   * @memberof Twilio.Pricing.V1
-   * @instance
+   * @memberof Twilio.Pricing.V1#
    *
    * @param {string} sid - sid of instance
    *
@@ -52,25 +53,43 @@ VoiceList = function VoiceList(version) {
 
   Object.defineProperty(VoiceListInstance,
     'numbers', {
-    get: function numbers() {
-      if (!this._numbers) {
-        this._numbers = new NumberList(this._version);
-      }
+      get: function numbers() {
+        if (!this._numbers) {
+          this._numbers = new NumberList(this._version);
+        }
 
-      return this._numbers;
-    }
+        return this._numbers;
+      }
   });
 
   Object.defineProperty(VoiceListInstance,
     'countries', {
-    get: function countries() {
-      if (!this._countries) {
-        this._countries = new CountryList(this._version);
-      }
+      get: function countries() {
+        if (!this._countries) {
+          this._countries = new CountryList(this._version);
+        }
 
-      return this._countries;
-    }
+        return this._countries;
+      }
   });
+
+  /* jshint ignore:start */
+  /**
+   * Provide a user-friendly representation
+   *
+   * @function toJSON
+   * @memberof Twilio.Pricing.V1.VoiceList#
+   *
+   * @returns Object
+   */
+  /* jshint ignore:end */
+  VoiceListInstance.toJSON = function toJSON() {
+    return this._solution;
+  };
+
+  VoiceListInstance[util.inspect.custom] = function inspect(depth, options) {
+    return util.inspect(this.toJSON(), options);
+  };
 
   return VoiceListInstance;
 };
@@ -78,13 +97,13 @@ VoiceList = function VoiceList(version) {
 
 /* jshint ignore:start */
 /**
- * @constructor Twilio.Pricing.V1.VoicePage
- * @augments Page
- * @description Initialize the VoicePage
+ * Initialize the VoicePage
  *
- * @param {Twilio.Pricing.V1} version - Version of the resource
- * @param {object} response - Response from the API
- * @param {object} solution - Path solution
+ * @constructor Twilio.Pricing.V1.VoicePage
+ *
+ * @param {V1} version - Version of the resource
+ * @param {Response<string>} response - Response from the API
+ * @param {VoiceSolution} solution - Path solution
  *
  * @returns VoicePage
  */
@@ -104,10 +123,9 @@ VoicePage.prototype.constructor = VoicePage;
  * Build an instance of VoiceInstance
  *
  * @function getInstance
- * @memberof Twilio.Pricing.V1.VoicePage
- * @instance
+ * @memberof Twilio.Pricing.V1.VoicePage#
  *
- * @param {object} payload - Payload response from the API
+ * @param {VoicePayload} payload - Payload response from the API
  *
  * @returns VoiceInstance
  */
@@ -116,18 +134,43 @@ VoicePage.prototype.getInstance = function getInstance(payload) {
   return new VoiceInstance(this._version, payload);
 };
 
+/* jshint ignore:start */
+/**
+ * Provide a user-friendly representation
+ *
+ * @function toJSON
+ * @memberof Twilio.Pricing.V1.VoicePage#
+ *
+ * @returns Object
+ */
+/* jshint ignore:end */
+VoicePage.prototype.toJSON = function toJSON() {
+  let clone = {};
+  _.forOwn(this, function(value, key) {
+    if (!_.startsWith(key, '_') && ! _.isFunction(value)) {
+      clone[key] = value;
+    }
+  });
+  return clone;
+};
+
+VoicePage.prototype[util.inspect.custom] = function inspect(depth, options) {
+  return util.inspect(this.toJSON(), options);
+};
+
 
 /* jshint ignore:start */
 /**
+ * Initialize the VoiceContext
+ *
  * @constructor Twilio.Pricing.V1.VoiceInstance
- * @description Initialize the VoiceContext
  *
  * @property {string} name - The name
  * @property {string} url - The url
  * @property {string} links - The links
  *
- * @param {Twilio.Pricing.V1} version - Version of the resource
- * @param {object} payload - The instance payload
+ * @param {V1} version - Version of the resource
+ * @param {VoicePayload} payload - The instance payload
  */
 /* jshint ignore:end */
 VoiceInstance = function VoiceInstance(version, payload) {
@@ -141,6 +184,31 @@ VoiceInstance = function VoiceInstance(version, payload) {
   // Context
   this._context = undefined;
   this._solution = {};
+};
+
+/* jshint ignore:start */
+/**
+ * Provide a user-friendly representation
+ *
+ * @function toJSON
+ * @memberof Twilio.Pricing.V1.VoiceInstance#
+ *
+ * @returns Object
+ */
+/* jshint ignore:end */
+VoiceInstance.prototype.toJSON = function toJSON() {
+  let clone = {};
+  _.forOwn(this, function(value, key) {
+    if (!_.startsWith(key, '_') && ! _.isFunction(value)) {
+      clone[key] = value;
+    }
+  });
+  return clone;
+};
+
+VoiceInstance.prototype[util.inspect.custom] = function inspect(depth, options)
+    {
+  return util.inspect(this.toJSON(), options);
 };
 
 module.exports = {

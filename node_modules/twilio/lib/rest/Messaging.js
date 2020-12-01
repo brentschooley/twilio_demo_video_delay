@@ -21,6 +21,8 @@ var V1 = require('./messaging/V1');  /* jshint ignore:line */
  * @constructor Twilio.Messaging
  *
  * @property {Twilio.Messaging.V1} v1 - v1 version
+ * @property {Twilio.Messaging.V1.DeactivationsList} deactivations -
+ *          deactivations resource
  * @property {Twilio.Messaging.V1.ServiceList} services - services resource
  *
  * @param {Twilio} twilio - The twilio client
@@ -38,17 +40,24 @@ Messaging.prototype.constructor = Messaging;
 
 Object.defineProperty(Messaging.prototype,
   'v1', {
-  get: function() {
-    this._v1 = this._v1 || new V1(this);
-    return this._v1;
-  }
+    get: function() {
+      this._v1 = this._v1 || new V1(this);
+      return this._v1;
+    }
+});
+
+Object.defineProperty(Messaging.prototype,
+  'deactivations', {
+    get: function() {
+      return this.v1.deactivations;
+    }
 });
 
 Object.defineProperty(Messaging.prototype,
   'services', {
-  get: function() {
-    return this.v1.services;
-  }
+    get: function() {
+      return this.v1.services;
+    }
 });
 
 module.exports = Messaging;

@@ -1,4 +1,3 @@
-// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 'use strict';
 
 var _ = require('lodash');
@@ -157,7 +156,10 @@ Page.prototype.processResponse = function(response) {
     throw new RestException(response);
   }
 
-  return JSON.parse(response.body);
+  if (typeof response.body === 'string') {
+    return JSON.parse(response.body);
+  }
+  return response.body;
 };
 
 /**
@@ -173,9 +175,9 @@ Page.prototype.loadPage = function(payload) {
   }
 
   var keys = _.chain(payload)
-      .keys()
-      .difference(this.META_KEYS)
-      .value();
+    .keys()
+    .difference(this.META_KEYS)
+    .value();
 
   if (keys.length === 1) {
     return payload[keys[0]];

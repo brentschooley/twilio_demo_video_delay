@@ -10,6 +10,7 @@
 /* jshint ignore:end */
 
 var _ = require('lodash');  /* jshint ignore:line */
+var util = require('util');  /* jshint ignore:line */
 var RecordList = require('./usage/record').RecordList;
 var TriggerList = require('./usage/trigger').TriggerList;
 
@@ -17,8 +18,9 @@ var UsageList;
 
 /* jshint ignore:start */
 /**
+ * Initialize the UsageList
+ *
  * @constructor Twilio.Api.V2010.AccountContext.UsageList
- * @description Initialize the UsageList
  *
  * @param {Twilio.Api.V2010} version - Version of the resource
  * @param {string} accountSid -
@@ -29,8 +31,7 @@ UsageList = function UsageList(version, accountSid) {
   /* jshint ignore:start */
   /**
    * @function usage
-   * @memberof Twilio.Api.V2010.AccountContext
-   * @instance
+   * @memberof Twilio.Api.V2010.AccountContext#
    *
    * @param {string} sid - sid of instance
    *
@@ -51,25 +52,43 @@ UsageList = function UsageList(version, accountSid) {
 
   Object.defineProperty(UsageListInstance,
     'records', {
-    get: function records() {
-      if (!this._records) {
-        this._records = new RecordList(this._version, this._solution.accountSid);
-      }
+      get: function records() {
+        if (!this._records) {
+          this._records = new RecordList(this._version, this._solution.accountSid);
+        }
 
-      return this._records;
-    }
+        return this._records;
+      }
   });
 
   Object.defineProperty(UsageListInstance,
     'triggers', {
-    get: function triggers() {
-      if (!this._triggers) {
-        this._triggers = new TriggerList(this._version, this._solution.accountSid);
-      }
+      get: function triggers() {
+        if (!this._triggers) {
+          this._triggers = new TriggerList(this._version, this._solution.accountSid);
+        }
 
-      return this._triggers;
-    }
+        return this._triggers;
+      }
   });
+
+  /* jshint ignore:start */
+  /**
+   * Provide a user-friendly representation
+   *
+   * @function toJSON
+   * @memberof Twilio.Api.V2010.AccountContext.UsageList#
+   *
+   * @returns Object
+   */
+  /* jshint ignore:end */
+  UsageListInstance.toJSON = function toJSON() {
+    return this._solution;
+  };
+
+  UsageListInstance[util.inspect.custom] = function inspect(depth, options) {
+    return util.inspect(this.toJSON(), options);
+  };
 
   return UsageListInstance;
 };

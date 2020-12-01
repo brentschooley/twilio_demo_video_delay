@@ -1,7 +1,10 @@
 'use strict';
 
 var _ = require('lodash');
-var moment = require('moment');
+var dayjs = require('dayjs');
+var utc = require('dayjs/plugin/utc');
+
+dayjs.extend(utc);
 
 module.exports = {};
 
@@ -19,10 +22,10 @@ module.exports = {};
  * @return {string|object} date formatted in YYYY-MM-DD form
  */
 module.exports.iso8601Date = function(d) {
-  if (_.isUndefined(d) || _.isString(d) || !((d instanceof Date))) {
+  if (_.isUndefined(d) || _.isString(d) || !(_.isDate(d))) {
     return d;
   } else {
-    return moment.utc(d).format('YYYY-MM-DD');
+    return dayjs.utc(d).format('YYYY-MM-DD');
   }
 };
 
@@ -39,7 +42,7 @@ module.exports.iso8601DateTime = function(d) {
   if (_.isUndefined(d) || _.isString(d) || !(d instanceof Date)) {
     return d;
   } else {
-    return moment.utc(d).format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+    return dayjs.utc(d).format('YYYY-MM-DD[T]HH:mm:ss[Z]');
   }
 };
 
@@ -114,7 +117,7 @@ module.exports.bool = function(input) {
   if (_.isString(input)) {
     return input;
   }
-  if(_.isBoolean(input)) {
+  if (_.isBoolean(input)) {
     return input.toString();
   }
 
@@ -132,8 +135,8 @@ module.exports.bool = function(input) {
  * @returns {array} new array with transform applied to each element.
  */
 module.exports.map = function(input, transform) {
-    if (_.isArray(input)) {
-        return _.map(input, transform);
-    }
-    return input;
-}
+  if (_.isArray(input)) {
+    return _.map(input, transform);
+  }
+  return input;
+};
