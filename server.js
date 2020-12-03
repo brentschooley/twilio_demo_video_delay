@@ -53,8 +53,8 @@ Check us out on YouTube at https://youtube.com/TwilioDevs
 
 app.post("/voice_response", (req, res) => {
   const twiml = new VoiceResponse();
-  twiml.play({}, `${req.protocol}://${req.hostname}/that_one_song.mp3`);
-
+  //twiml.play({}, `${req.protocol}://${req.hostname}/that_one_song.mp3`);
+  twiml.play({}, `https://demo.twilio.com/docs/classic.mp3`);
   res.type("text/xml");
   res.send(twiml.toString());
 });
